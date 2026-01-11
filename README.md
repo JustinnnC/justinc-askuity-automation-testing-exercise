@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Askuity Automation Testing Exercise 
 
 Developed with Typescript. Test Automation Tool with Cypress
