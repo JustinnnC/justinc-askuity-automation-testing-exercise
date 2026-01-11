@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Askuity Automation Testing Exercise 
 
 Developed with Typescript. Test Automation Tool with Cypress
@@ -97,3 +98,4 @@ I did notice that the HTML of the store page could have included better IDs. In 
       - ADD IDs to Subtotal container and value on the cart panel 
 
 Thank you for your time and consideration! I appreciate the opportunity to demonstrate what I can bring to your team! 
+
