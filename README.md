@@ -56,6 +56,7 @@ Before you begin, ensure you have the following installed:
 
 ## Overview of Structure 
 
+```text
 cypressFramework/
 ├── cypress/
 │   ├── constants/              
@@ -76,6 +77,7 @@ cypressFramework/
 ├── package.json
 ├── tsconfig.json
 └── README.md
+```
 
 ## Error handling
 
@@ -90,11 +92,11 @@ cypressFramework/
 ## Additional Notes
 
 I did notice that the HTML of the store page could have included better IDs. In my previous role, adding additional IDs or attributes was part of our workflow for improve selector stability. I would have followed the same practice in this exercise as well. Some areas where I would have added IDs and attributes are: 
-      - Add ID to 'Add to Cart' on the store page
-      - Add ID to '-' and '+' on the cart panel
-      - Add ID to 'X' on the cart panel 
-      - Add ID to 'Quantity' and value on the cart panel
-      - ADD IDs to Subtotal container and value on the cart panel 
+   -  Add ID to 'Add to Cart' on the store page
+   - Add ID to '-' and '+' on the cart panel
+   - Add ID to 'X' on the cart panel 
+   - Add ID to 'Quantity' and value on the cart panel
+   - ADD IDs to Subtotal container and value on the cart panel 
 
 Thank you for your time and consideration! I appreciate the opportunity to demonstrate what I can bring to your team! 
 
