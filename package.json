@@ -1,0 +1,19 @@
+{
+  "name": "cypress-framework",
+  "version": "1.0.0",
+  "description": "Cypress Framework for Askuity Automation Testing Exercise",
+  "scripts": {
+    "cypress:open": "cypress open --browser chrome",
+    "cypress:run": "cypress run",
+    "cypress:headed": "cypress run --headed --browser chrome --no-exit",
+    "cypress:watch": "nodemon --watch cypress/e2e --watch cypress/pages --watch cypress/support --ext ts --delay 1000 --exec 'npm run cypress:headed'",
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "@cypress/schematic": "^2.5.1",
+    "@types/node": "^20.0.0",
+    "cypress": "^13.0.0",
+    "nodemon": "^3.1.11",
+    "typescript": "^5.0.0"
+  }
+}

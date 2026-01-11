@@ -1,0 +1,19 @@
+{
+    "shoppingList": [
+        {
+            "item": "Blue T-Shirt",
+            "quantity": 3, 
+            "price": 9.00
+        }, 
+        {
+            "item": "Black T-shirt with white stripes", 
+            "quantity": 1, 
+            "price": 14.90
+        },
+        {
+            "item": "Cropped Stay Groovy off white", 
+            "quantity": 0,
+            "price": 10.90
+        }
+    ]
+}
