@@ -23,7 +23,7 @@ Before you begin, ensure you have the following installed:
 2.  **Navigate to the project directory:**
 
     ```bash
-    cd cypressFramework
+    cd justinc-askuity-automation-testing-exercise
     ```
 
 3.  **Install the dependencies:**
