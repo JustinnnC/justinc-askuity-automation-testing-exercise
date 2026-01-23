@@ -2,20 +2,36 @@ import TestData from './testData';
 import { calculateCartAmount } from "../support/storeUtils";
 
 class CartPanel { 
+    /**
+     * Function opens the cart panel
+     * @returns Clicking the cart panel selector
+     */
     openCartPanel() {
         return cy.get('button:has([title="Products in cart quantity"])').click();
     }
 
+    /**
+     * Function closes the cart panel
+     * @returns Clicking the close cart panel selector
+     */
     closeCartPanel() { 
         return cy.contains('button','X').click();
     }
 
+    /**
+     * Function gets the cart subtotal
+     * @returns Cart Subtotal from parsing the value
+     */
    getCartSubtotal() { 
         return cy.contains('SUBTOTAL').closest('div').find('p').eq(1).invoke('text').then((text) => {
             return parseFloat(text.match(/[\d.]+/)?.[0] || '0');
         });
     }
 
+    /**
+     * Function validates the cart amount
+     * @returns expectedTotal and actualTotal
+     */
     verifyCartAmount() { 
         return calculateCartAmount().then((expected) => {
             return this.getCartSubtotal().then((actualTotal) => { 
@@ -25,6 +41,10 @@ class CartPanel {
         });
     }
 
+    /**
+     * Function validates the cart item count to the actual number of items in the cart
+     * @returns cartQuantity and totalQuantity
+     */
     verifyCartItemCount() {
         // Based on the HTML of the website, its better to use the div title when the cart panel is closed
         // There's no sable selector of the cart quantity when the cart panel is open
@@ -47,12 +67,21 @@ class CartPanel {
         });
     }
     
+    /**
+     * Function takes in an item name and removes it from the cart
+     * @param productName 
+     */
     removeItemFromCart(productName: string) {
         this.getCartItem(productName)
             .find('button[title="remove product from cart"]')
             .click();
     }
 
+    /**
+     * Function takes in an item name and returns the quantity value
+     * @param productItem 
+     * @returns Quantity value
+     */
     getQuantity(productItem: string) { 
         return cy.get(`img[alt="${productItem}"]`).parent().find('p').then(($paragraphs) => {
             const $quantity = $paragraphs.filter(':contains("Quantity:")');
@@ -63,6 +92,10 @@ class CartPanel {
         });
     }
 
+    /**
+     * Function gets item name, ensure it exists in the fixture file, and then update to listed quantity on the fixture file 
+     * @param productItem 
+     */
     updateQuantity(productItem: string) { 
         TestData.getProductByName(productItem).then((product) => { 
             const productQuantity = product.quantity;
@@ -79,6 +112,11 @@ class CartPanel {
     }
 
     // Helper Functions // 
+    /**
+     * Function takes in an item and then returns the selector of that item in the cart
+     * @param productName 
+     * @returns Selector of the item in the cart
+     */
     private getCartItem(productName: string) {
         return cy.get(`img[alt="${productName}"]`).parent();
     }
