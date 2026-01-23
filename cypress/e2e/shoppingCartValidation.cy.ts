@@ -16,8 +16,14 @@ describe("Shopping Cart Validation", () => {
 
   it("Select sizes XS and ML and validate filter results are correct", () => { 
     cy.contains('Sizes:');
-    const getSize = ['XS','ML'];
-    StorePage.selectSizes(getSize);
+    StorePage.selectSizes('XS');
+    StorePage.verifyProductCountMatches().then((counts) => {
+      expect(counts.actualCount).to.equal(counts.displayedCount);
+    });
+    StorePage.selectSizes('ML');
+    StorePage.verifyProductCountMatches().then((counts) => {
+      expect(counts.actualCount).to.equal(counts.displayedCount);
+    });
     cy.reload();
   });
 
@@ -44,7 +50,9 @@ describe("Shopping Cart Validation", () => {
 
   it("Update the quantity of the products", () => { 
     CartPage.updateQuantity('Blue T-Shirt');
-    // TODO: function takes in item as param and return the quantity from the cart
+    CartPage.getQuantity('Blue T-Shirt').then((quantity => {
+      expect(quantity).to.equal(3);
+    }));
   });
 
   it("Verify updated quantity cart state", () => { 
@@ -55,7 +63,7 @@ describe("Shopping Cart Validation", () => {
 
   it("Verify the pricing logic and subtotal amount", () => {
     CartPage.verifyCartAmount().then((amounts) => {
-      expect(amounts.expected).to.equal(amounts.actualTotal);
+      expect(amounts.expectedTotal).to.equal(amounts.actualTotal);
     });
   });
 

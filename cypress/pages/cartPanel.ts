@@ -17,10 +17,10 @@ class CartPanel {
     }
 
     verifyCartAmount() { 
-        return calculateCartAmount().then((expectedTotal) => {
+        return calculateCartAmount().then((expected) => {
             return this.getCartSubtotal().then((actualTotal) => { 
-                const expected = parseFloat(expectedTotal);
-                return { expected, actualTotal };
+                const expectedTotal = parseFloat(expected);
+                return { expectedTotal, actualTotal };
             });
         });
     }
@@ -46,6 +46,22 @@ class CartPanel {
             });
         });
     }
+    
+    removeItemFromCart(productName: string) {
+        this.getCartItem(productName)
+            .find('button[title="remove product from cart"]')
+            .click();
+    }
+
+    getQuantity(productItem: string) { 
+        return cy.get(`img[alt="${productItem}"]`).parent().find('p').then(($paragraphs) => {
+            const $quantity = $paragraphs.filter(':contains("Quantity:")');
+            const text = $quantity.text();
+            const quantityMatch = text.match(/Quantity:\s*(\d+)/);
+            const quantity = quantityMatch ? parseInt(quantityMatch[1]) : 0;
+            return quantity;
+        });
+    }
 
     updateQuantity(productItem: string) { 
         TestData.getProductByName(productItem).then((product) => { 
@@ -65,12 +81,6 @@ class CartPanel {
     // Helper Functions // 
     private getCartItem(productName: string) {
         return cy.get(`img[alt="${productName}"]`).parent();
-    }
-
-    removeItemFromCart(productName: string) {
-        this.getCartItem(productName)
-            .find('button[title="remove product from cart"]')
-            .click();
     }
 }
 export default new CartPanel();

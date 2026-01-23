@@ -7,9 +7,25 @@ class StorePage {
         cy.visit(BASE_URL);
     }
 
-    selectSizes(sizes: string[]) { 
-        sizes.forEach(size => { 
-            this.clickSizeFilter(size);
+    selectSizes(sizes: string) { 
+        try { 
+            cy.get(this.getSizeCheckbox(sizes), { timeout: 5000 }).should('exist').check({ force: true });
+            cy.wait(TIMEOUTS.SHORT);
+        } catch (error) { 
+            cy.log('Unable to click on Size Filter');
+            throw error;
+        }
+    }
+
+    verifyProductCountMatches() {
+        return this.getProductCount().then(displayedCount => {
+            return cy.get('button:contains("Add to cart")').then(($buttons) => {
+                const actualCount = $buttons.length;
+                return {
+                    actualCount,
+                    displayedCount
+                };
+            });
         });
     }
 
@@ -39,35 +55,6 @@ class StorePage {
             const count = Number(text.match(/\d+/)?.[0]);
             return count;
         }); 
-    }
-
-    private clickSizeFilter(size: string){ 
-        try {
-            cy.get(this.getSizeCheckbox(size), { timeout: 5000 }).should('exist').check({ force: true });
-            cy.wait(TIMEOUTS.SHORT);
-            this.getProductCount().then(currCount => {
-                this.verifyProductCountMatches(currCount);
-            });
-        } catch (error) {
-            cy.log('Unable to click on Size Filter');
-            throw error;
-        }
-    }
-
-    private verifyProductCountMatches(displayedCount: number) {
-        try {
-            this.getProductCountText().should('contain', displayedCount.toString());
-            cy.get('button:contains("Add to cart")').should(($buttons) => {
-                const actualCount = $buttons.length;
-                if (actualCount !== displayedCount) {
-                    throw new Error(`Mismatch - Product(s) Found Value: ${displayedCount}, Visible Items : ${actualCount}`);
-                }
-                expect(actualCount).to.equal(displayedCount);
-            });
-        } catch (error) {
-            cy.log('Mismatch product count values');
-            throw error;
-        }
     }
 }
 export default new StorePage(); 
