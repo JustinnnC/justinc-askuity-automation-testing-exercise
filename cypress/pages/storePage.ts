@@ -13,13 +13,13 @@ class StorePage {
         });
     }
 
-    fillCartFromFixture() {
-        TestData.forEachProduct((product) => { 
-            if (product.quantity > 0){ 
+    addToCart(productName: string) {
+        TestData.getProductByName(productName).then((product) => {
+            if (product.quantity > 0) {
                 cy.get(`[alt="${product.item}"]`)
-                .parent()
-                .find('button:contains("Add to cart")')
-                .click();
+                    .parent()
+                    .find('button:contains("Add to cart")')
+                    .click();
                 CartPanel.closeCartPanel();
             }
         });

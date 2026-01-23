@@ -15,37 +15,53 @@ describe("Shopping Cart Validation", () => {
   });
 
   it("Select sizes XS and ML and validate filter results are correct", () => { 
+    cy.contains('Sizes:');
     const getSize = ['XS','ML'];
     StorePage.selectSizes(getSize);
     cy.reload();
   });
 
-  it("Add products to the cart from fixture file", () => {
-    StorePage.fillCartFromFixture();
+  it("Add Items to the cart", () => { 
+    cy.contains('Blue T-Shirt').should('exist');
+    StorePage.addToCart('Blue T-Shirt');
+    cy.contains('Black T-shirt with white stripes').should('exist');
+    StorePage.addToCart('Black T-shirt with white stripes');
   });
 
   it("Open the cart menu", () => { 
     CartPage.openCartPanel();
+    cy.contains('Cart').should('be.visible');
+    CartPage.getCartSubtotal().then((amount) => {
+      expect(amount).to.be.greaterThan(0);
+    });
   });
 
   it("Verify initial cart state", () => { 
-    CartPage.verifyCartItemCount();
+    CartPage.verifyCartItemCount().then((quantities) => {
+      expect(quantities.cartQuantity).to.equal(quantities.totalQuantity);
+    });
   });
 
   it("Update the quantity of the products", () => { 
-    CartPage.updateQuantity();
+    CartPage.updateQuantity('Blue T-Shirt');
+    // TODO: function takes in item as param and return the quantity from the cart
   });
 
   it("Verify updated quantity cart state", () => { 
-    CartPage.verifyCartItemCount();
+    CartPage.verifyCartItemCount().then((quantities) => {
+      expect(quantities.cartQuantity).to.equal(quantities.totalQuantity);
+    });
   });
 
   it("Verify the pricing logic and subtotal amount", () => {
-    CartPage.verifyCartAmount();
+    CartPage.verifyCartAmount().then((amounts) => {
+      expect(amounts.expected).to.equal(amounts.actualTotal);
+    });
   });
 
   it("Clear the cart", () => {
-    CartPage.clearCart();
+    CartPage.removeItemFromCart('Blue T-Shirt');
+    CartPage.removeItemFromCart('Black T-shirt with white stripes');
   });
 
   it("Verify the empty state of the cart", () => {

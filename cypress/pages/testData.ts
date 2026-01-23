@@ -21,5 +21,15 @@ class TestData {
             shoppingList.forEach(callback);
         });
     }
+
+    getProductByName(itemName: string) {
+        return this.getShoppingList().then((shoppingList) => {
+            const product = shoppingList.find(item => item.item === itemName);
+            if (!product) {
+                throw new Error(`Item "${itemName}" is not found in fixture file`);
+            }
+            return product;
+        });
+    }
 }
 export default new TestData();
